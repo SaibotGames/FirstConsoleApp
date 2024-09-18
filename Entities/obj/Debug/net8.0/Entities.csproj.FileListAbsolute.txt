@@ -1,0 +1,14 @@
+C:\Users\user\RiderProjects\ConsoleApp2\Entities\bin\Debug\net8.0\Entities.exe
+C:\Users\user\RiderProjects\ConsoleApp2\Entities\bin\Debug\net8.0\Entities.deps.json
+C:\Users\user\RiderProjects\ConsoleApp2\Entities\bin\Debug\net8.0\Entities.runtimeconfig.json
+C:\Users\user\RiderProjects\ConsoleApp2\Entities\bin\Debug\net8.0\Entities.dll
+C:\Users\user\RiderProjects\ConsoleApp2\Entities\bin\Debug\net8.0\Entities.pdb
+C:\Users\user\RiderProjects\ConsoleApp2\Entities\obj\Debug\net8.0\Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\RiderProjects\ConsoleApp2\Entities\obj\Debug\net8.0\Entities.AssemblyInfoInputs.cache
+C:\Users\user\RiderProjects\ConsoleApp2\Entities\obj\Debug\net8.0\Entities.AssemblyInfo.cs
+C:\Users\user\RiderProjects\ConsoleApp2\Entities\obj\Debug\net8.0\Entities.csproj.CoreCompileInputs.cache
+C:\Users\user\RiderProjects\ConsoleApp2\Entities\obj\Debug\net8.0\Entities.dll
+C:\Users\user\RiderProjects\ConsoleApp2\Entities\obj\Debug\net8.0\refint\Entities.dll
+C:\Users\user\RiderProjects\ConsoleApp2\Entities\obj\Debug\net8.0\Entities.pdb
+C:\Users\user\RiderProjects\ConsoleApp2\Entities\obj\Debug\net8.0\Entities.genruntimeconfig.cache
+C:\Users\user\RiderProjects\ConsoleApp2\Entities\obj\Debug\net8.0\ref\Entities.dll
