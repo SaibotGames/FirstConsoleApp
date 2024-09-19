@@ -17,4 +17,8 @@ public class Comment
         PostId = postId;
         UserId = userId;
     }
+    public override string ToString()
+        {
+            return Body;
+        }
 }

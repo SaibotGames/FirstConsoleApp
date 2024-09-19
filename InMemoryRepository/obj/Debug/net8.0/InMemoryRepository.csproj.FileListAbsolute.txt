@@ -24,3 +24,4 @@ C:\Users\user\RiderProjects\ConsoleApp2\InMemoryRepository\obj\Debug\net8.0\refi
 C:\Users\user\RiderProjects\ConsoleApp2\InMemoryRepository\obj\Debug\net8.0\InMemoryRepository.pdb
 C:\Users\user\RiderProjects\ConsoleApp2\InMemoryRepository\obj\Debug\net8.0\InMemoryRepository.genruntimeconfig.cache
 C:\Users\user\RiderProjects\ConsoleApp2\InMemoryRepository\obj\Debug\net8.0\ref\InMemoryRepository.dll
+C:\Users\user\RiderProjects\ConsoleApp2\InMemoryRepository\obj\Debug\net8.0\InMemoryRepository.sourcelink.json

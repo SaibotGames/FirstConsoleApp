@@ -29,3 +29,4 @@ C:\Users\user\RiderProjects\ConsoleApp2\CLI\bin\Debug\net8.0\InMemoryRepository.
 C:\Users\user\RiderProjects\ConsoleApp2\CLI\bin\Debug\net8.0\RepositoryContracts.pdb
 C:\Users\user\RiderProjects\ConsoleApp2\CLI\obj\Debug\net8.0\CLI.csproj.AssemblyReference.cache
 C:\Users\user\RiderProjects\ConsoleApp2\CLI\obj\Debug\net8.0\CLI.csproj.Up2Date
+C:\Users\user\RiderProjects\ConsoleApp2\CLI\obj\Debug\net8.0\CLI.sourcelink.json

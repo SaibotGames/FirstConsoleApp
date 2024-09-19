@@ -80,6 +80,7 @@ public class CliApp
         Console.WriteLine("1. Add Post");
         Console.WriteLine("2. Find Posts");
         Console.WriteLine("3. Manage Posts");
+        Console.WriteLine("4. Join discussion for a post");
         Console.WriteLine("0. Return to main menu");
         var choice = Console.ReadLine();
         switch (choice)
@@ -89,12 +90,16 @@ public class CliApp
                 await createPostView.RunAsync();
                 break;
             case "2":
-                var listPostsView = new ListPostsView(postRepository);
+                var listPostsView = new ListPostsView(postRepository, commentRepository);
                 await listPostsView.RunAsync();
                 break;
             case "3":
                 var managePostView = new ManagePostView(postRepository);
                 await managePostView.RunAsync();
+                break;
+            case "4":
+                var singlePostView = new SinglePostView(postRepository, commentRepository);
+                await singlePostView.RunAsync();
                 break;
             case "0":
                 return;
