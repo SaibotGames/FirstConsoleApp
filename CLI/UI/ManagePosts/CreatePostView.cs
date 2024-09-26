@@ -24,5 +24,5 @@ public class CreatePostView
         Console.WriteLine("Post added");
         Console.WriteLine("Press any key to exit...");
         Console.ReadKey();
-    }
+    } 
 }
