@@ -14,6 +14,12 @@ public class Post
         UserId = userId;
     }
 
+    public Post()
+    {
+        Body = "";
+        Title = "";
+    }
+
     public override string ToString()
     {
         return $"Title: {Title}, Body: {Body}, UserId: {UserId}";
