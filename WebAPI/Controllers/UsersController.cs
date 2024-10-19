@@ -66,7 +66,6 @@ public class UsersController : ControllerBase{
         {
             Id = user.Id,
             UserName = user.UserName,
-            Password = user.Password
         };
     }
 }

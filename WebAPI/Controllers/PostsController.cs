@@ -61,19 +61,38 @@ public class PostsController
 
 
     [HttpGet]
-    public IActionResult GetAllPosts()
+    public async Task<IResult> GetAllPosts([FromQuery] int? userId, [FromQuery] string? title)
     {
-        var posts = repository.GetMany().Select(MapToPostDto).ToList();
-        return (IActionResult)Results.Ok(posts);
+        
+       // IQueryable<Post> posts = repository.GetMany();
+       List<PostDto> posts = repository.GetMany().Select(MapToPostDto).ToList();
+
+        if (userId.HasValue)
+        {
+            posts.Where(p => p.UserId == userId);
+        }
+
+        if (!string.IsNullOrEmpty(title))
+        {
+            posts.Where(p => p.Title.ToLower().Contains(title.ToLower()));
+        }
+        
+        return Results.Ok(posts);
+        
     }
     
     //COMMENTS
     
     [HttpGet("{id}/comments")]
-    public async Task<IResult> GetComments(int id)
+    public async Task<IResult> GetComments(int id, [FromQuery] int? userId)
     {
         var post = await repository.GetSingleAsync(id);
         var comments = comRepository.GetMany().Where(c => c.PostId == id).Select(MapToCommentDto).ToList();
+
+        if (userId.HasValue)
+        {
+            comments.Where(c => c.UserId == userId);
+        }
         return Results.Ok(comments);
     }
 
