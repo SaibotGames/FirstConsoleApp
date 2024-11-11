@@ -20,10 +20,17 @@ public class UsersController : ControllerBase{
     {
         var newUser = new User(createUserDto.UserName, createUserDto.Password);
 
-        var addedUser = await userRepository.AddAsync(newUser);
-        var userDto = MapToUserDto(addedUser);
+        try
+        {
+            var addedUser = await userRepository.AddAsync(newUser);
+            var userDto = MapToUserDto(addedUser);
 
-        return CreatedAtAction(nameof(GetUser), new { id = addedUser.Id }, userDto);
+            return CreatedAtAction(nameof(GetUser), new { id = addedUser.Id }, userDto);
+        }
+        catch (ArgumentException e)
+        {
+            return BadRequest(e.Message);
+        }
     }
 
     [HttpPut("{id}")]
@@ -45,7 +52,7 @@ public class UsersController : ControllerBase{
         return NoContent();
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<IActionResult> GetUser(int id)
     {
         var user = await userRepository.GetSingleAsync(id);
@@ -66,7 +73,14 @@ public class UsersController : ControllerBase{
         {
             Id = user.Id,
             UserName = user.UserName,
-            Password = user.Password
         };
+    }
+
+    [HttpGet("username/{username}")]
+    public async Task<IActionResult> GetUserByUsername(string username)
+    {
+        var user = await userRepository.GetSingleByUsernameAsync(username);
+        var userDto = MapToUserDto(user);
+        return Ok(userDto);
     }
 }

@@ -50,11 +50,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\user\\RiderProjects\\ConsoleApp2\\FileRepositories\\FileRepositories.csproj",
+      "projectUniqueName": "C:\\Users\\user\\Documents\\GitHub\\FirstConsoleApp\\FileRepositories\\FileRepositories.csproj",
       "projectName": "FileRepositories",
-      "projectPath": "C:\\Users\\user\\RiderProjects\\ConsoleApp2\\FileRepositories\\FileRepositories.csproj",
+      "projectPath": "C:\\Users\\user\\Documents\\GitHub\\FirstConsoleApp\\FileRepositories\\FileRepositories.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\user\\RiderProjects\\ConsoleApp2\\FileRepositories\\obj\\",
+      "outputPath": "C:\\Users\\user\\Documents\\GitHub\\FirstConsoleApp\\FileRepositories\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -69,8 +69,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\user\\RiderProjects\\ConsoleApp2\\RepositoryContracts\\RepositoryContracts.csproj": {
-              "projectPath": "C:\\Users\\user\\RiderProjects\\ConsoleApp2\\RepositoryContracts\\RepositoryContracts.csproj"
+            "C:\\Users\\user\\Documents\\GitHub\\FirstConsoleApp\\RepositoryContracts\\RepositoryContracts.csproj": {
+              "projectPath": "C:\\Users\\user\\Documents\\GitHub\\FirstConsoleApp\\RepositoryContracts\\RepositoryContracts.csproj"
             }
           }
         }

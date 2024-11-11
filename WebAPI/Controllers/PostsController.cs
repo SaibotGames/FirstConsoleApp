@@ -28,7 +28,8 @@ public class PostsController
         {
             Id = 1,
             Body = createPostDto.Body,
-            Title = createPostDto.Title
+            Title = createPostDto.Title,
+            UserId = createPostDto.UserId,
         };
         var added = await repository.AddAsync(newPost);
         return Results.Created($"/posts/{added.Id}", added);
@@ -48,6 +49,7 @@ public class PostsController
     public async Task<IResult> DeletePost(int id)
     {
         await repository.DeleteAsync(id);
+        await comRepository.DeleteManyAsync(id);
         return Results.NoContent();
     }
 
@@ -61,10 +63,11 @@ public class PostsController
 
 
     [HttpGet]
-    public IActionResult GetAllPosts()
+    public IResult GetAllPosts()
     {
+        Console.WriteLine("Get all posts");
         var posts = repository.GetMany().Select(MapToPostDto).ToList();
-        return (IActionResult)Results.Ok(posts);
+        return Results.Ok(posts);
     }
     
     //COMMENTS
@@ -87,7 +90,7 @@ public class PostsController
         return Results.Created($"/comments/{commentAdded.Id}", commentAdded);
     }
 
-    [HttpPut("{id}/comments/{commentId}")]
+    [HttpPut("{postId}/comments/{commentId}")]
     public async Task<IResult> UpdateComment(int postId, int commentId,
         [FromBody] UpdateCommentDto updateCommentDto)
     {
@@ -102,7 +105,7 @@ public class PostsController
         return Results.Accepted();
     }
 
-    [HttpDelete("{id}/comments/{commentId}")]
+    [HttpDelete("{postId}/comments/{commentId}")]
     public async Task<IResult> DeleteComment(int postId, int commentId)
     {
         var existingComment = await comRepository.GetSingleAsync(commentId);

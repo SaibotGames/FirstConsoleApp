@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\user\\RiderProjects\\ConsoleApp2\\InMemoryRepository\\InMemoryRepository.csproj": {}
+    "C:\\Users\\user\\Documents\\GitHub\\FirstConsoleApp\\InMemoryRepository\\InMemoryRepository.csproj": {}
   },
   "projects": {
-    "C:\\Users\\user\\RiderProjects\\ConsoleApp2\\Entities\\Entities.csproj": {
+    "C:\\Users\\user\\Documents\\GitHub\\FirstConsoleApp\\Entities\\Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\RiderProjects\\ConsoleApp2\\Entities\\Entities.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Documents\\GitHub\\FirstConsoleApp\\Entities\\Entities.csproj",
         "projectName": "Entities",
-        "projectPath": "C:\\Users\\user\\RiderProjects\\ConsoleApp2\\Entities\\Entities.csproj",
+        "projectPath": "C:\\Users\\user\\Documents\\GitHub\\FirstConsoleApp\\Entities\\Entities.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\RiderProjects\\ConsoleApp2\\Entities\\obj\\",
+        "outputPath": "C:\\Users\\user\\Documents\\GitHub\\FirstConsoleApp\\Entities\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -62,14 +62,14 @@
         }
       }
     },
-    "C:\\Users\\user\\RiderProjects\\ConsoleApp2\\InMemoryRepository\\InMemoryRepository.csproj": {
+    "C:\\Users\\user\\Documents\\GitHub\\FirstConsoleApp\\InMemoryRepository\\InMemoryRepository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\RiderProjects\\ConsoleApp2\\InMemoryRepository\\InMemoryRepository.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Documents\\GitHub\\FirstConsoleApp\\InMemoryRepository\\InMemoryRepository.csproj",
         "projectName": "InMemoryRepository",
-        "projectPath": "C:\\Users\\user\\RiderProjects\\ConsoleApp2\\InMemoryRepository\\InMemoryRepository.csproj",
+        "projectPath": "C:\\Users\\user\\Documents\\GitHub\\FirstConsoleApp\\InMemoryRepository\\InMemoryRepository.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\RiderProjects\\ConsoleApp2\\InMemoryRepository\\obj\\",
+        "outputPath": "C:\\Users\\user\\Documents\\GitHub\\FirstConsoleApp\\InMemoryRepository\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -84,8 +84,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\user\\RiderProjects\\ConsoleApp2\\RepositoryContracts\\RepositoryContracts.csproj": {
-                "projectPath": "C:\\Users\\user\\RiderProjects\\ConsoleApp2\\RepositoryContracts\\RepositoryContracts.csproj"
+              "C:\\Users\\user\\Documents\\GitHub\\FirstConsoleApp\\RepositoryContracts\\RepositoryContracts.csproj": {
+                "projectPath": "C:\\Users\\user\\Documents\\GitHub\\FirstConsoleApp\\RepositoryContracts\\RepositoryContracts.csproj"
               }
             }
           }
@@ -124,14 +124,14 @@
         }
       }
     },
-    "C:\\Users\\user\\RiderProjects\\ConsoleApp2\\RepositoryContracts\\RepositoryContracts.csproj": {
+    "C:\\Users\\user\\Documents\\GitHub\\FirstConsoleApp\\RepositoryContracts\\RepositoryContracts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\RiderProjects\\ConsoleApp2\\RepositoryContracts\\RepositoryContracts.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Documents\\GitHub\\FirstConsoleApp\\RepositoryContracts\\RepositoryContracts.csproj",
         "projectName": "RepositoryContracts",
-        "projectPath": "C:\\Users\\user\\RiderProjects\\ConsoleApp2\\RepositoryContracts\\RepositoryContracts.csproj",
+        "projectPath": "C:\\Users\\user\\Documents\\GitHub\\FirstConsoleApp\\RepositoryContracts\\RepositoryContracts.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\RiderProjects\\ConsoleApp2\\RepositoryContracts\\obj\\",
+        "outputPath": "C:\\Users\\user\\Documents\\GitHub\\FirstConsoleApp\\RepositoryContracts\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -146,8 +146,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\user\\RiderProjects\\ConsoleApp2\\Entities\\Entities.csproj": {
-                "projectPath": "C:\\Users\\user\\RiderProjects\\ConsoleApp2\\Entities\\Entities.csproj"
+              "C:\\Users\\user\\Documents\\GitHub\\FirstConsoleApp\\Entities\\Entities.csproj": {
+                "projectPath": "C:\\Users\\user\\Documents\\GitHub\\FirstConsoleApp\\Entities\\Entities.csproj"
               }
             }
           }

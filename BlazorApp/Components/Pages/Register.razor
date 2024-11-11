@@ -1,0 +1,66 @@
+﻿@page "/Register"
+@using BlazorApp.Auth
+@using DTOs
+@inject AuthenticationStateProvider AuthProvider
+@inject NavigationManager navMgr
+@inject IUserService UserService;
+<h3>Register</h3>
+
+<AuthorizeView>
+    <NotAuthorized>
+        <h3>Please register</h3> <label>User name:</label> <input type="text" @bind="userName" @bind:event="oninput"/>
+        <label>Password:</label> <input type="password" @bind="password" @bind:event="oninput"/>
+        @if (!string.IsNullOrEmpty(errorLabel))
+        {
+            <label style="color: red"> @errorLabel </label>
+        }
+        <button @onclick="RegisterAsync" disabled="@IsButtonDisabled">Register</button>
+    </NotAuthorized>
+    <Authorized>
+        <h3>Hello, @context.User.Identity.Name</h3>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    private string userName;
+    private string password;
+    private string errorLabel;
+
+    private bool IsButtonDisabled => string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password);
+    
+
+    private async Task RegisterAsync()
+    {
+        errorLabel = "";
+        if (password.Length < 8)
+        {
+            errorLabel = "The password must contain at least 8 characters";
+        }
+
+        if (userName.Length == 0)
+        {
+            errorLabel = "The username cannot be empty";
+        }
+
+        if (userName.Contains(" "))
+        {
+            errorLabel = "The username cannot contain spaces";
+        }
+        try
+        {
+            CreateUserDto NewUser = new CreateUserDto()
+            {
+                UserName = userName,
+                Password = password
+            };
+            await UserService.AddAsync(NewUser);
+            navMgr.NavigateTo("/login");
+        }
+        catch (HttpRequestException e)
+        {
+            Console.WriteLine(e);
+            errorLabel = $"Error: {e.Message}";
+        }
+    }
+
+}

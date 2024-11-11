@@ -1,0 +1,248 @@
+﻿@page "/PostDetails/{postID}"
+@inject IPostService PostService;
+@inject IUserService UserService;
+@inject NavigationManager NavMgr;
+@using System.Security.Claims
+@using DTOs
+@rendermode InteractiveServer
+
+<PageTitle>Post Details</PageTitle>
+<AuthorizeView>
+    <Authorized>
+        @if (SelectedPost == null)
+        {
+            <p>Loading...</p>
+            <!-- Loading state if post is not yet loaded -->
+        }
+        else
+        {
+            <h2>@SelectedPost.Title</h2>
+            <div>Posted by: @GetUsername(SelectedPost.UserId)</div>
+            <div>@SelectedPost.Body</div>
+            <br/>
+            @if (userId == SelectedPost.UserId)
+            {
+                <button @onclick="EditPostClicked">Edit post</button>
+            }
+            <br/>
+            <br/>
+            <br/>
+            <ul>
+                @foreach (var comment in comments)
+                {
+                    <li>
+                        <span class="badge">@GetUsername(comment.UserId)</span>
+                        
+                        @if (userId == comment.UserId)
+                        {
+                            <textarea @bind="@comment.Body" @bind:event="oninput" rows="5" cols="30"></textarea>
+                            <button @onclick="()=>UpdateComment(comment)">Update comment</button>
+                            <button @onclick="()=>DeleteComment(comment)">Delete comment</button>
+                        }
+                        else
+                        {
+                            <div>@comment.Body</div>
+                        }
+                    </li>
+                }
+            </ul>
+            <br/>
+            <textarea @bind="@commentBody" @bind:event="oninput" rows="5" cols="30"></textarea>
+            <button @onclick="AddComment" disabled="@IsButtonDisabled">Post comment</button>
+            <label style="color: red"> @errorLabel </label>
+            
+        }
+    </Authorized>
+    <NotAuthorized>
+        you need to log in!
+        <button @onclick='() => NavMgr.NavigateTo("login")'>go to login</button>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter] public string postID { get; set; }
+    [CascadingParameter] public Task<AuthenticationState> State { get; set; }
+
+    private List<CommentDto> comments;
+    private int userId;
+    private PostDto SelectedPost { get; set; }
+
+    private string commentBody;
+    private bool IsButtonDisabled => string.IsNullOrEmpty(commentBody);
+
+    // Dictionary to store usernames for pre-fetching
+    private Dictionary<int, string> userNames = new Dictionary<int, string>();
+    private string errorLabel;
+
+
+    private void EditPostClicked()
+    {
+        NavMgr.NavigateTo($"/EditPost/{postID}");
+    }
+
+    private async Task UpdateComment(CommentDto commentToUpdate)
+    {
+        try
+        {
+            UpdateCommentDto update = new UpdateCommentDto()
+            {
+                Body = commentToUpdate.Body
+            };
+            await PostService.UpdateCommentAsync(update, commentToUpdate.PostId, commentToUpdate.Id);
+        }
+        catch (Exception e)
+        {
+            errorLabel= $"Error: {e.Message}";
+        }
+        await UpdateCommentList();
+        StateHasChanged();
+    }
+
+    private async Task DeleteComment(CommentDto commentToDelete)
+    {
+        try
+        {
+           await PostService.DeleteCommentAsync(commentToDelete.PostId, commentToDelete.Id);
+        }
+        catch (Exception e)
+        {
+            errorLabel= $"Error: {e.Message}";
+        }
+        await UpdateCommentList();
+        StateHasChanged();
+    }
+
+   private async Task AddComment()
+{
+    try
+    {
+        // Create the new comment DTO
+        CreateCommentDto newCom = new CreateCommentDto()
+        {
+            Body = commentBody,
+            PostId = int.Parse(postID),
+            UserId = userId
+        };
+
+        // Call the service to add the comment
+        await PostService.AddCommentAsync(newCom, int.Parse(postID));
+
+        // Clear the input field after adding the comment (optional)
+        commentBody = string.Empty;
+
+        // Fetch the updated list of comments
+        await UpdateCommentList();
+
+        // Optionally, force a UI refresh if necessary
+        StateHasChanged();
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e);
+        errorLabel = $"Error: {e.Message}";
+    }
+}
+
+private async Task UpdateCommentList()
+{
+    try
+    {
+        // Ensure postID is valid before calling the service
+        if (int.TryParse(postID, out int parsedPostId))
+        {
+            comments = await PostService.GetManyComments(parsedPostId);
+
+            // Pre-fetch usernames for all commenters
+            foreach (var comment in comments)
+            {
+                await FetchUsernames(comment.UserId);
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid Post ID for updating comments.");
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error updating comments: {ex.Message}");
+    }
+}
+
+protected override async Task OnInitializedAsync()
+{
+    try
+    {
+        if (int.TryParse(postID, out int parsedPostId))
+        {
+            SelectedPost = await PostService.GetSinglePostAsync(parsedPostId);
+            if (SelectedPost != null)
+            {
+                await UpdateCommentList();
+
+                // Pre-fetch the post author's username
+                await FetchUsernames(SelectedPost.UserId);
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid Post ID.");
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error loading post: {ex.Message}");
+    }
+
+    // Retrieve user ID from authentication state
+    AuthenticationState authenticationState = await State;
+    ClaimsPrincipal claimsPrincipal = authenticationState.User;
+    if (claimsPrincipal.Identity is null || !claimsPrincipal.Identity.IsAuthenticated)
+    {
+        return;
+    }
+    IEnumerable<Claim> claims = claimsPrincipal.Claims;
+    userId = int.Parse(claims.Single(c => c.Type == "Id").Value);
+}
+    private async Task FetchUsernames(int userId)
+    {
+        // Only fetch if we haven't already fetched the username
+        if (!userNames.ContainsKey(userId))
+        {
+            try
+            {
+                var user = await UserService.GetSingleAsync(userId);
+                userNames[userId] = user?.UserName ?? "[DELETED]"; // Store the username or default value
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error fetching username for userId {userId}: {e.Message}");
+                userNames[userId] = "[DELETED]"; // Fallback in case of an error
+            }
+        }
+    }
+
+    public string GetUsername(int userId)
+    {
+        // Return the cached username if already fetched, otherwise fallback
+        return userNames.ContainsKey(userId) ? userNames[userId] : "[DELETED]";
+    }
+
+}
+
+<style>
+    .badge {
+        display: inline-block;
+        font-size: small;
+        color: white;
+        padding: 0.8em 0.7em 0 0.7em;
+        background-color:#405061;
+        line-height: 1em;
+        position: relative;
+        left: -1px;
+        top: -4px;
+        height: 1.8em;
+        margin-right: .8em;
+        border-radius: 4px 0 0 4px;
+    }
+</style>

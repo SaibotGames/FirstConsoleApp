@@ -18,9 +18,20 @@ public class UserFileRepository : IUserRepository
 
     public async Task<User> AddAsync(User user)
     {
+        
         string usersAsJson = await File.ReadAllTextAsync(_filePath);
         List<User> users =
             JsonSerializer.Deserialize<List<User>>(usersAsJson) !;
+        foreach (var u in users)
+        {
+            if (u.UserName.ToUpper().Equals(user.UserName.ToUpper()))
+            {
+                throw new ArgumentException("The username is already taken.");
+            } 
+        }
+
+
+       
         int maxId = users.Count > 0 ? users.Max(x => x.Id) : 1;
         user.Id = maxId + 1;
         users.Add(user);
@@ -75,5 +86,18 @@ public class UserFileRepository : IUserRepository
         string usersAsJson = File.ReadAllTextAsync(_filePath).Result;
         List<User> users = JsonSerializer.Deserialize<List<User>>(usersAsJson) !;
         return users.AsQueryable();
+    }
+
+    public async Task<User> GetSingleByUsernameAsync(string username)
+    {
+        string usersAsJson = await File.ReadAllTextAsync(_filePath);
+        List<User> users = JsonSerializer.Deserialize<List<User>>(usersAsJson) !;
+        User? user = users.SingleOrDefault(x => x.UserName == username);
+        if (user is null)
+        {
+            throw new NotFoundException($"User with username '{username}' not found");
+        }
+
+        return user;
     }
 }

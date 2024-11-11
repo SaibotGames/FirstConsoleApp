@@ -78,5 +78,19 @@ public class CommentFileRepository : ICommentRepository
         List<Comment> comments = JsonSerializer.Deserialize<List<Comment>>(commentsAsJson) !;
         return comments.AsQueryable();
     }
-    
+
+    public async Task DeleteManyAsync(int postId)
+    {
+        string commentsAsJson = File.ReadAllTextAsync(_filePath).Result;
+        List<Comment> comments = JsonSerializer.Deserialize<List<Comment>>(commentsAsJson) !;
+        foreach (var c in comments)
+        {
+            if (c.PostId == postId)
+            {
+                comments.Remove(c);
+            }
+        }
+        commentsAsJson = JsonSerializer.Serialize(comments);
+        await File.WriteAllTextAsync(_filePath, commentsAsJson);
+    }
 }

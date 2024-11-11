@@ -1,0 +1,67 @@
+﻿@page "/EditPost/{postID}"
+@using System.Security.Claims
+@using DTOs
+@inject IPostService PostService;
+@inject NavigationManager NavMgr;
+<h3>Edit Post</h3>
+
+<label>Title: </label> <input type="text" @bind="@title" @bind:event="oninput"/>
+<br/>
+<label>Body: </label>
+<textarea @bind="@bodyText" rows="10" cols="50" @bind:event="oninput"></textarea>
+<br/>
+<button @onclick="Update" disabled="@IsButtonDisabled">Edit</button>
+<button @onclick="Delete">Delete</button>
+@if (!string.IsNullOrEmpty(errorLabel))
+{
+    <label style="color: red"> @errorLabel </label>
+}
+@code {
+    [Parameter] public string postID { get; set; }
+    private string title;
+    private string bodyText;
+    private string errorLabel;
+    private PostDto SelectedPost { get; set; }
+
+    private bool IsButtonDisabled => string.IsNullOrEmpty(title) || string.IsNullOrEmpty(bodyText);
+
+    private async Task Delete()
+    {
+        try
+        {
+            await PostService.DeletePostAsync(int.Parse(postID));
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            errorLabel = $"Error: {e.Message}";
+        }
+        NavMgr.NavigateTo($"/Posts");
+    }
+    
+    private async Task Update()
+    {
+        try
+        {
+            UpdatePostDto newPost = new UpdatePostDto()
+            {
+                Title = title,
+                Body = bodyText,
+            };
+            await PostService.UpdateAsync(newPost,int.Parse(postID));
+            NavMgr.NavigateTo($"/PostDetails/{postID}");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            errorLabel = $"Error: {e.Message}";
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        SelectedPost = await PostService.GetSinglePostAsync(int.Parse(postID));
+        title = SelectedPost.Title;
+        bodyText = SelectedPost.Body;
+    }
+}

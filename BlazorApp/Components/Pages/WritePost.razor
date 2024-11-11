@@ -1,0 +1,60 @@
+﻿@page "/WritePost"
+@using System.Security.Claims
+@using DTOs
+@inject IPostService PostService;
+@inject NavigationManager navMgr;
+@inject AuthenticationStateProvider AuthProvider;
+@attribute [Authorize]
+<h3>Write a new Post</h3>
+
+<label>Title: </label> <input type="text" @bind="@title" @bind:event="oninput"/>
+<br/>
+<label>Body: </label>
+<textarea @bind="@bodyText" rows="10" cols="50" @bind:event="oninput"></textarea>
+<br/>
+<button @onclick="MakeAPost" disabled="@IsButtonDisabled">Post</button>
+@if (!string.IsNullOrEmpty(errorLabel))
+{
+<label style="color: red"> @errorLabel </label>
+}
+@code {
+    [CascadingParameter] public Task<AuthenticationState> State { get; set; }
+    private string title;
+    private string bodyText;
+    private int userId;
+    private string errorLabel;
+
+    private bool IsButtonDisabled => string.IsNullOrEmpty(title) || string.IsNullOrEmpty(bodyText);
+    
+    private async Task MakeAPost()
+    {
+        try
+        {
+            CreatePostDto newPost = new CreatePostDto()
+            {
+                Title = title,
+                Body = bodyText,
+                UserId = userId
+            };
+            await PostService.AddPostAsync(newPost);
+            navMgr.NavigateTo("/Posts");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            errorLabel = $"Error: {e.Message}";
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        AuthenticationState authenticationState = await State;
+        ClaimsPrincipal claimsPrincipal = authenticationState.User;
+        if (claimsPrincipal.Identity is null || !claimsPrincipal.Identity.IsAuthenticated)
+        {
+            return;
+        }
+        IEnumerable<Claim> claims = claimsPrincipal.Claims;
+        userId = int.Parse(claims.Single(c => c.Type == "Id").Value);
+    }
+}

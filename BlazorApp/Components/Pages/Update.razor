@@ -1,0 +1,108 @@
+﻿@page "/Update"
+@using System.Security.Claims
+@using BlazorApp.Auth
+@using DTOs
+@inject AuthenticationStateProvider AuthProvider;
+@inject NavigationManager navMgr;
+@inject IUserService UserService;
+@attribute [Authorize]
+<h3>Update</h3>
+
+<AuthorizeView>
+    <Authorized>
+
+        <h3>Please change your details:</h3> <label>User name:</label> <input type="text" @bind="userName" @bind:event="oninput"/>
+        <label>Password:</label> <input type="password" @bind="password" @bind:event="oninput"/>
+        @if (!string.IsNullOrEmpty(errorLabel))
+        {
+            <label style="color: red"> @errorLabel </label>
+        }
+        <button @onclick="UpdateAsync" disabled="@IsButtonDisabled">Update</button>
+        <br />
+        <InputCheckbox @bind-Value="@isChecked"></InputCheckbox><p>I'm sure</p>
+        <br />
+        <button @onclick="DeleteAsync" disabled="@(isChecked == false)">Delete account</button>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    [CascadingParameter] public Task<AuthenticationState> State { get; set; }
+    private string userName;
+    private string password;
+    private string errorLabel;
+    private int userid;
+    private bool isChecked;
+
+
+    
+    private bool IsButtonDisabled => string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password);
+
+
+    private async Task DeleteAsync()
+    {
+        try
+        {
+          await UserService.DeleteAsync(userid);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            errorLabel = $"Error: {e.Message}";
+        }
+
+         ((SimpleAuthProvider)AuthProvider).Logout();
+         navMgr.NavigateTo("/");
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        AuthenticationState authenticationState = await State;
+        ClaimsPrincipal claimsPrincipal = authenticationState.User;
+        if (claimsPrincipal.Identity is null || !claimsPrincipal.Identity.IsAuthenticated)
+        {
+            return;
+        }
+        IEnumerable<Claim> claims = claimsPrincipal.Claims;
+        userid = int.Parse(claims.Single(c => c.Type == "Id").Value);
+        userName = claims.Single(c => c.Type == ClaimTypes.Name).Value;
+    }
+
+    private async Task UpdateAsync()
+    {
+        errorLabel = "";
+        if (string.IsNullOrEmpty(password)|| password.Length < 8 )
+        {
+            errorLabel = "The password must contain at least 8 characters";
+            return ;
+        }
+        
+
+        if (userName.Contains(" "))
+        {
+            errorLabel = "The username cannot contain spaces";
+            return;
+        }
+        
+        if (string.IsNullOrEmpty(userName))
+        {
+            errorLabel = "The username cannot be empty";
+            return;
+        }
+
+        try
+        {
+            UpdateUserDto updateUser = new UpdateUserDto()
+            {
+                UserName = userName,
+                Password = password
+            };
+            await UserService.UpdateAsync(updateUser, userid);
+            navMgr.NavigateTo("/home");
+        }
+        catch (HttpRequestException e)
+        {
+            Console.WriteLine(e);
+            errorLabel = $"Error: {e.Message}";
+        }
+    }
+
+}
