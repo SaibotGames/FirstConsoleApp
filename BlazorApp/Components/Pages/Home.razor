@@ -1,0 +1,16 @@
+﻿@page "/"
+@inject NavigationManager NavMgr;
+@inject IPostService service;
+<PageTitle>Home</PageTitle>
+<AuthorizeView>
+    <Authorized>
+        <h3>Hello, @context.User.Identity.Name</h3>
+        <button @onclick='() => NavMgr.NavigateTo("Update")'>Update account</button>
+    </Authorized>
+    <NotAuthorized>
+        you need to log in!
+        <button @onclick='() => NavMgr.NavigateTo("login")'>go to login</button>
+    </NotAuthorized>
+</AuthorizeView>
+
+
