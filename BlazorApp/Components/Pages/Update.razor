@@ -96,7 +96,7 @@
                 Password = password
             };
             await UserService.UpdateAsync(updateUser, userid);
-            navMgr.NavigateTo("/home");
+            navMgr.NavigateTo("/");
         }
         catch (HttpRequestException e)
         {

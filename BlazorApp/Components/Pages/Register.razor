@@ -35,16 +35,19 @@
         if (password.Length < 8)
         {
             errorLabel = "The password must contain at least 8 characters";
+            return;
         }
 
         if (userName.Length == 0)
         {
             errorLabel = "The username cannot be empty";
+        return;
         }
 
         if (userName.Contains(" "))
         {
             errorLabel = "The username cannot contain spaces";
+        return;
         }
         try
         {
