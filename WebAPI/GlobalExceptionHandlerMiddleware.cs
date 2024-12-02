@@ -22,8 +22,8 @@ public class GlobalExceptionHandlerMiddleware : IMiddleware
         {
             var traceId = Guid.NewGuid();
             _logger.LogError(
-                $"Error occure while processing the request, TraceId : ${{{{traceId}}}},\" +\n " +
-                $" $\" Message : ${{{{ex.Message}}}}, StackTrace: ${{{{ex.StackTrace}}}}");
+                $"Error occure while processing the request, TraceId : ${traceId},\" +\n " +
+                $" $\" Message : ${e.Message}, StackTrace: ${e.StackTrace}, Inner: ${e.InnerException}");
             
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
 

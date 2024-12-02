@@ -1,4 +1,6 @@
-﻿namespace Entities;
+﻿using System.Text.Json.Serialization;
+
+namespace Entities;
 
 public class Comment
 {
@@ -6,6 +8,10 @@ public class Comment
     public string Body { get; set; } // This has a setter, because a comment can be edited after creation.
     public int PostId { get; } // this property has no setter, because it does not make sense to modify it after creation.
     public int UserId { get; }
+    
+    [JsonIgnore]
+    public Post Post { get; set; }
+    public User User { get; set; }
 
     // This constructor is not strictly necessary.
     // You could instead instantiate a Comment using object initializer.
@@ -21,4 +27,5 @@ public class Comment
         {
             return Body;
         }
+    private Comment(){}
 }
